@@ -1,0 +1,39 @@
+package:
+  name: ~#PROJECT#~
+  version: 1.0.0.1
+
+source:
+  path: ..
+
+requirements:
+  host:
+    - python
+    - setuptools
+  build:
+    #- {{ compiler('c') }}
+  run:
+    - python
+    - docopt
+    - python-json-logger
+    - structlog
+    - statsd
+    - ujson
+    - requests
+
+test:
+  requires:
+    - python
+    - setuptools
+    - coverage
+    - pytest
+    - pytest-pep8
+    - pytest-cov
+    - pytest-benchmark
+  imports:
+    - ~#PROJECT#~
+
+about:
+  home: ~#PROJECTLINK#~
+  license: ~#LICENSE#~
+  license_file: LICENSE
+  summary: ~#SHORTDESCRIPTION#~

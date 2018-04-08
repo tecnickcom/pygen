@@ -1,0 +1,47 @@
+language: python
+
+dist: trusty
+
+sudo: true
+
+branches:
+  except:
+    - release
+
+branches:
+  only:
+    - master
+    - develop
+
+python:
+  - 3.6
+
+before_install:
+  - sudo apt-get update || true
+  - if [ -n "$GH_USER" ]; then git config --global github.user ${GH_USER}; fi;
+  - if [ -n "$GH_TOKEN" ]; then git config --global github.token ${GH_TOKEN}; fi;
+
+addons:
+  apt:
+    packages:
+    - python
+    - python-pip
+
+install:
+  - pip install --upgrade pip
+  - pip install --upgrade --user json-spec
+
+script:
+  - make new TYPE=srv
+  - cd target/github.com/dummyvendor/dummy
+  - make build
+  - cd ../../../..
+  - make clean
+  - make new TYPE=app
+  - cd target/github.com/dummyvendor/dummy
+  - make build
+  - cd ../../../..
+  - make clean
+  - make new TYPE=lib
+  - cd target/github.com/dummyvendor/dummy
+  - make build

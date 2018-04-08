@@ -1,0 +1,20 @@
+{
+  "remoteConfigProvider" : "",
+  "remoteConfigEndpoint" : "",
+  "remoteConfigPath" : "",
+  "remoteConfigSecretKeyring" : "",
+  "log": {
+    "level": "INFO",
+    "network": "udp",
+    "address": "/dev/log"
+  },
+  "stats": {
+    "prefix": "~#PROJECT#~",
+    "host": "127.0.0.1",
+    "port": 8125
+  },
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8018
+  }
+}

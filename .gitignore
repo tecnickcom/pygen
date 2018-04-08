@@ -1,0 +1,6 @@
+target
+/Dockerfile
+*.cfg
+!default.cfg
+**/target
+*.test

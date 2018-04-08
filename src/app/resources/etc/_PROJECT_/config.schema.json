@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "~#PROJECT#~ config",
+  "description": "JSON schema for ~#PROJECT#~ configuration",
+  "type": "object",
+  "properties": {
+    "remoteConfigProvider": {
+      "description": "Remote configuration source (if any)",
+      "type": "string",
+      "default": "",
+      "enum": [
+        "",
+        "consul",
+        "etcd"
+      ]
+    },
+    "remoteConfigEndpoint": {
+      "description": "Remote configuration URL (ip:port)",
+      "type": "string",
+      "default": ""
+    },
+    "remoteConfigPath": {
+      "description": "Remote configuration path in which to search for the configuration file (e.g. '/config/~#PROJECT#~')",
+      "type": "string",
+      "default": ""
+    },
+    "remoteConfigSecretKeyring": {
+      "description": "Path to the openpgp secret keyring used to decrypt the remote configuration data (e.g. '/etc/~#PROJECT#~/configkey.gpg'); if empty a non secure connection will be used instead",
+      "type": "string",
+      "default": ""
+    },
+    "log": {
+      "description": "Logging settings",
+      "type": "object",
+      "properties": {
+        "level": {
+          "description": "Defines the default log level",
+          "type": "string",
+          "default": "DEBUG",
+          "enum": [
+            "EMERGENCY",
+            "ALERT",
+            "CRITICAL",
+            "ERROR",
+            "WARNING",
+            "NOTICE",
+            "INFO",
+            "DEBUG"
+          ]
+        },
+        "network": {
+          "description": "(OPTIONAL) Network type used by the Syslog",
+          "type": "string",
+          "default": "",
+          "enum": [
+            "",
+            "udp",
+            "tcp"
+          ]
+        },
+        "address": {
+          "description": "(OPTIONAL) Network address of the Syslog daemon (ip:port) or just (:port)",
+          "type": "string",
+          "default": ""
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "network",
+        "address"
+      ]
+    },
+    "stats": {
+      "description": "StatsD is used to collect usage metrics",
+      "type": "object",
+      "properties": {
+        "prefix": {
+          "description": "StatsD client's string prefix that will be used in every bucket name",
+          "type": "string",
+          "default": "~#PROJECT#~"
+        },
+        "host": {
+          "description": "Network host address of the StatsD daemon",
+          "type": "string",
+          "default": "127.0.0.1"
+        },
+        "port": {
+          "description": "Network port of the StatsD daemon",
+          "type": "integer",
+          "default": 8125
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "prefix",
+        "host",
+        "port"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "log",
+    "stats"
+  ]
+}
