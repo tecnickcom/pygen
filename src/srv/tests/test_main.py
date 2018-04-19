@@ -58,7 +58,7 @@ class TestMain(TestCase):
             response = urllib.request.urlopen("http://127.0.0.1:8017/status").read()
             self.assertIn(b'"data":{"status":"OK"}', response)
             response = urllib.request.urlopen("http://127.0.0.1:8017/config").read()
-            self.assertIn(b'"remoteConfigProvider"', response)
+            self.assertIn(b'"remote_config_provider"', response)
             response = urllib.request.urlopen("http://127.0.0.1:8017/process/123").read()
             self.assertIn(b'"double":246', response)
         finally:

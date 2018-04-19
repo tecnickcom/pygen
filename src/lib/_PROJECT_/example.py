@@ -6,7 +6,6 @@ class Example(object):
 
     def __init__(self, num=0):
         """Initialize a new Example.
-
         :num: Input number.
         """
         self.num = num

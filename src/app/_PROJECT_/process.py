@@ -6,7 +6,6 @@ class Process(object):
 
     def __init__(self, num=0):
         """Initialize a new Process.
-
         :num: Number
         """
         self.num = num

@@ -33,7 +33,6 @@ from werkzeug.serving import run_simple
 
 def cli(options, const):
     """Main process.
-
     :options: Command-line arguments as parsed by docopt
     :const:   Constants
     """

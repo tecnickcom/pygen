@@ -11,13 +11,13 @@ class Config(object):
 
     def __init__(self, const):
         """Initialize default configuration parameters."""
-        self.configFile = const.CONFIG_FILE_NAME
-        self.configPaths = const.CONFIG_PATH
+        self.config_file = const.CONFIG_FILE_NAME
+        self.config_paths = const.CONFIG_PATH
         self.param = {
-            "remoteConfigProvider": const.REMOTE_CONFIG_PROVIDER,
-            "remoteConfigEndpoint": const.REMOTE_CONFIG_ENDPOINT,
-            "remoteConfigPath": const.REMOTE_CONFIG_PATH,
-            "remoteConfigSecretKeyring": const.REMOTE_CONFIG_SECRET_KEYRING,
+            "remote_config_provider": const.REMOTE_CONFIG_PROVIDER,
+            "remote_config_endpoint": const.REMOTE_CONFIG_ENDPOINT,
+            "remote_config_path": const.REMOTE_CONFIG_PATH,
+            "remote_config_secret_keyring": const.REMOTE_CONFIG_SECRET_KEYRING,
             "log": {
                 "level": const.LOG_LEVEL,
                 "network": const.LOG_NETWORK,
@@ -32,27 +32,35 @@ class Config(object):
 
     def empty_remote_config(self):
         """Check if the remote configuration settings are empty."""
-        return (self.param['remoteConfigProvider'] == "" or
-                self.param['remoteConfigEndpoint'] == "" or
-                self.param['remoteConfigPath'] == "")
+        return (self.param['remote_config_provider'] == "" or
+                self.param['remote_config_endpoint'] == "" or
+                self.param['remote_config_path'] == "")
 
     def get_local_config_params(self, configDir=""):
         """Get the local configuration parameters."""
-        if not not configDir:
-            if not os.path.isfile(os.path.join(configDir, self.configFile)):
+        if configDir:
+            if not os.path.isfile(os.path.join(configDir, self.config_file)):
                 raise Exception('Unable to find configuration file in: {0}'.format(configDir))
-            self.configPaths.insert(0, configDir)
-        for path in self.configPaths:
-            cf = os.path.join(path, self.configFile)
+            self.config_paths.insert(0, configDir)
+        for path in self.config_paths:
+            cf = os.path.join(path, self.config_file)
             if os.path.isfile(cf):
                 with open(cf, 'r') as fp:
                     self.param.update(json.loads(fp.read()))
                     break
         # overwrite remote config with environment variables
-        self.param['remoteConfigProvider'] = os.getenv('~#PROJECT#~_REMOTECONFIGPROVIDER', self.param['remoteConfigProvider'])
-        self.param['remoteConfigEndpoint'] = os.getenv('~#PROJECT#~_REMOTECONFIGENDPOINT', self.param['remoteConfigEndpoint'])
-        self.param['remoteConfigPath'] = os.getenv('~#PROJECT#~_REMOTECONFIGPATH', self.param['remoteConfigPath'])
-        self.param['remoteConfigSecretKeyring'] = os.getenv('~#PROJECT#~_REMOTECONFIGSECRETKEYRING', self.param['remoteConfigSecretKeyring'])
+        self.param['remote_config_provider'] = os.getenv(
+            '~#UPROJECT#~_REMOTECONFIGPROVIDER',
+            self.param['remote_config_provider'])
+        self.param['remote_config_endpoint'] = os.getenv(
+            '~#UPROJECT#~_REMOTECONFIGENDPOINT',
+            self.param['remote_config_endpoint'])
+        self.param['remote_config_path'] = os.getenv(
+            '~#UPROJECT#~_REMOTECONFIGPATH',
+            self.param['remote_config_path'])
+        self.param['remote_config_secret_keyring'] = os.getenv(
+            '~#UPROJECT#~_REMOTECONFIGSECRETKEYRING',
+            self.param['remote_config_secret_keyring'])
 
     def get_remote_config(self, provider, endpoint, path, key):
         """Load the remote configuration using the specified provider."""
@@ -65,13 +73,13 @@ class Config(object):
         if self.empty_remote_config():
             return
         return self.get_remote_config(
-            self.param['remoteConfigProvider'],
-            self.param['remoteConfigEndpoint'],
-            self.param['remoteConfigPath'],
-            self.param['remoteConfigSecretKeyring'])
+            self.param['remote_config_provider'],
+            self.param['remote_config_endpoint'],
+            self.param['remote_config_path'],
+            self.param['remote_config_secret_keyring'])
 
     def get_config_url(self, endpoint, path, key):
-        url = "/".join((endpoint.strip('/'), path.strip('/'), self.configFile + '?' + key))
+        url = "/".join((endpoint.strip('/'), path.strip('/'), self.config_file + '?' + key))
         r = requests.get(url)
         r.raise_for_status()
         self.param.update(r.json())
@@ -80,7 +88,7 @@ class Config(object):
         """Load the configuration data."""
         self.get_local_config_params(configDir)
         self.get_remote_config_params()
-        if not not logLevel:
+        if logLevel:
             self.param['log']['level'] = logLevel
 
     def check_config_params(self):

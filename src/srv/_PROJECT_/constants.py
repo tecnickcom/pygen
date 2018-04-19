@@ -18,16 +18,16 @@ class Const(object):
         "/etc/" + PROGRAM_NAME + "/",
     ]
 
-    #: REMOTE_CONFIG_PROVIDER is the remote configuration source ("url")
+    #: REMOTE_CONFIG_PROVIDER is the remote configuration source type ("url")
     REMOTE_CONFIG_PROVIDER = ""
 
-    #: REMOTE_CONFIG_ENDPOINT is the remote configuration URL (ip:port)
+    #: REMOTE_CONFIG_ENDPOINT is the remote configuration URL (e.g. http://www.example.com)
     REMOTE_CONFIG_ENDPOINT = ""
 
-    #: REMOTE_CONFIG_PATH is the remote configuration path where to search fo the configuration file ("/config/rndpwd")
+    #: REMOTE_CONFIG_PATH is the remote configuration path where to search fo the configuration file ("/config/pygen")
     REMOTE_CONFIG_PATH = ""
 
-    #: REMOTE_CONFIG_SECRET_KEYRING is the path to the openpgp secret keyring used to decript the remote configuration data ("/etc/rndpwd/configkey.gpg")
+    #: REMOTE_CONFIG_SECRET_KEYRING secret to add as URL query or another secret key depending on the implementation
     REMOTE_CONFIG_SECRET_KEYRING = ""
 
     # --- Log (syslog) ---

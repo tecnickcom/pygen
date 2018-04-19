@@ -133,10 +133,10 @@ The configuration files can be stored in the current directory or in any of the 
 This program also support loading the configuration from an URL.
 The remote configuration location can be defined either in the local configuration file using the following parameters, or with environment variables:
 
-* **remoteConfigProvider** : remote configuration source ("url");
-* **remoteConfigEndpoint** : remote configuration URL (e.g. https://raw.githubusercontent.com/~#VENDOR#~/~#PROJECT#~);
-* **remoteConfigPath** : remote configuration path where to search fo the configuration file (e.g. "/master/resources/etc/~#PROJECT#~");
-* **remoteConfigSecretKeyring** : path to the openpgp secret keyring used to decript the remote configuration data (e.g. "token=0123456789ABCDEF");
+* **remote_config_provider** : remote configuration source ("url");
+* **remote_config_endpoint** : remote configuration URL (e.g. https://raw.githubusercontent.com/~#VENDOR#~/~#PROJECT#~);
+* **remote_config_path** : remote configuration path where to search fo the configuration file (e.g. "/master/resources/etc/~#PROJECT#~");
+* **remote_config_secret_keyring** : path to the openpgp secret keyring used to decript the remote configuration data (e.g. "token=0123456789ABCDEF");
 
 The equivalent environment variables are:
 

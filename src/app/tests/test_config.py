@@ -20,12 +20,12 @@ class TestConfig(TestCase):
         const.REMOTE_CONFIG_PATH = "endpoint"
         const.REMOTE_CONFIG_SECRET_KEYRING = "token=0123456789ABCDEF"
         cfg = Config(const)
-        self.assertEqual(cfg.configFile, const.CONFIG_FILE_NAME)
-        self.assertEqual(cfg.configPaths, const.CONFIG_PATH)
-        self.assertEqual(cfg.param["remoteConfigProvider"], const.REMOTE_CONFIG_PROVIDER)
-        self.assertEqual(cfg.param["remoteConfigEndpoint"], const.REMOTE_CONFIG_ENDPOINT)
-        self.assertEqual(cfg.param["remoteConfigPath"], const.REMOTE_CONFIG_PATH)
-        self.assertEqual(cfg.param["remoteConfigSecretKeyring"], const.REMOTE_CONFIG_SECRET_KEYRING)
+        self.assertEqual(cfg.config_file, const.CONFIG_FILE_NAME)
+        self.assertEqual(cfg.config_paths, const.CONFIG_PATH)
+        self.assertEqual(cfg.param["remote_config_provider"], const.REMOTE_CONFIG_PROVIDER)
+        self.assertEqual(cfg.param["remote_config_endpoint"], const.REMOTE_CONFIG_ENDPOINT)
+        self.assertEqual(cfg.param["remote_config_path"], const.REMOTE_CONFIG_PATH)
+        self.assertEqual(cfg.param["remote_config_secret_keyring"], const.REMOTE_CONFIG_SECRET_KEYRING)
 
     def test_empty_remote_config(self):
         const = Const()
@@ -62,21 +62,21 @@ class TestConfig(TestCase):
     def test_get_local_config_params_custom_dir(self):
         const = Const()
         cfg = Config(const)
-        os.environ["~#PROJECT#~_REMOTECONFIGPROVIDER"] = "url"
-        os.environ["~#PROJECT#~_REMOTECONFIGENDPOINT"] = "http://www.example.com"
-        os.environ["~#PROJECT#~_REMOTECONFIGPATH"] = "endpoint/path"
-        os.environ["~#PROJECT#~_REMOTECONFIGSECRETKEYRING"] = "token=0123456789ABCDEF"
+        os.environ["~#UPROJECT#~_REMOTECONFIGPROVIDER"] = "url"
+        os.environ["~#UPROJECT#~_REMOTECONFIGENDPOINT"] = "http://www.example.com"
+        os.environ["~#UPROJECT#~_REMOTECONFIGPATH"] = "endpoint/path"
+        os.environ["~#UPROJECT#~_REMOTECONFIGSECRETKEYRING"] = "token=0123456789ABCDEF"
         try:
             cfg.get_local_config_params(os.path.abspath(fdir + "/../resources/test/etc/~#PROJECT#~/"))
-            self.assertEqual(cfg.param["remoteConfigProvider"], "url")
-            self.assertEqual(cfg.param["remoteConfigEndpoint"], "http://www.example.com")
-            self.assertEqual(cfg.param["remoteConfigPath"], "endpoint/path")
-            self.assertEqual(cfg.param["remoteConfigSecretKeyring"], "token=0123456789ABCDEF")
+            self.assertEqual(cfg.param["remote_config_provider"], "url")
+            self.assertEqual(cfg.param["remote_config_endpoint"], "http://www.example.com")
+            self.assertEqual(cfg.param["remote_config_path"], "endpoint/path")
+            self.assertEqual(cfg.param["remote_config_secret_keyring"], "token=0123456789ABCDEF")
         finally:
-            os.environ["~#PROJECT#~_REMOTECONFIGPROVIDER"] = ""
-            os.environ["~#PROJECT#~_REMOTECONFIGENDPOINT"] = ""
-            os.environ["~#PROJECT#~_REMOTECONFIGPATH"] = ""
-            os.environ["~#PROJECT#~_REMOTECONFIGSECRETKEYRING"] = ""
+            os.environ["~#UPROJECT#~_REMOTECONFIGPROVIDER"] = ""
+            os.environ["~#UPROJECT#~_REMOTECONFIGENDPOINT"] = ""
+            os.environ["~#UPROJECT#~_REMOTECONFIGPATH"] = ""
+            os.environ["~#UPROJECT#~_REMOTECONFIGSECRETKEYRING"] = ""
 
     def test_get_local_config_params(self):
         const = Const()
@@ -89,17 +89,17 @@ class TestConfig(TestCase):
         const = Const()
         const.CONFIG_FILE_NAME = ""
         cfg = Config(const)
-        os.environ["~#PROJECT#~_REMOTECONFIGPROVIDER"] = "url"
-        os.environ["~#PROJECT#~_REMOTECONFIGENDPOINT"] = "https://jsonplaceholder.typicode.com"
-        os.environ["~#PROJECT#~_REMOTECONFIGPATH"] = "posts/97"
+        os.environ["~#UPROJECT#~_REMOTECONFIGPROVIDER"] = "url"
+        os.environ["~#UPROJECT#~_REMOTECONFIGENDPOINT"] = "https://jsonplaceholder.typicode.com"
+        os.environ["~#UPROJECT#~_REMOTECONFIGPATH"] = "posts/97"
         try:
             cfg.get_config_params(configDir="", logLevel="CRITICAL")
             self.assertEqual(cfg.param["log"]["level"], "CRITICAL")
             self.assertEqual(cfg.param["id"], 97)
         finally:
-            os.environ["~#PROJECT#~_REMOTECONFIGPROVIDER"] = ""
-            os.environ["~#PROJECT#~_REMOTECONFIGENDPOINT"] = ""
-            os.environ["~#PROJECT#~_REMOTECONFIGPATH"] = ""
+            os.environ["~#UPROJECT#~_REMOTECONFIGPROVIDER"] = ""
+            os.environ["~#UPROJECT#~_REMOTECONFIGENDPOINT"] = ""
+            os.environ["~#UPROJECT#~_REMOTECONFIGPATH"] = ""
 
     def test_get_config_params_local(self):
         const = Const()

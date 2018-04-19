@@ -4,8 +4,8 @@
   "description": "JSON schema for ~#PROJECT#~ configuration",
   "type": "object",
   "properties": {
-    "remoteConfigProvider": {
-      "description": "Remote configuration source (if any)",
+    "remote_config_provider": {
+      "description": "Remote configuration source type (if any)",
       "type": "string",
       "default": "",
       "enum": [
@@ -14,18 +14,18 @@
         "etcd"
       ]
     },
-    "remoteConfigEndpoint": {
-      "description": "Remote configuration URL (ip:port)",
+    "remote_config_endpoint": {
+      "description": "Remote configuration URL (e.g. http://www.example.com)",
       "type": "string",
       "default": ""
     },
-    "remoteConfigPath": {
+    "remote_config_path": {
       "description": "Remote configuration path in which to search for the configuration file (e.g. '/config/~#PROJECT#~')",
       "type": "string",
       "default": ""
     },
-    "remoteConfigSecretKeyring": {
-      "description": "Path to the openpgp secret keyring used to decrypt the remote configuration data (e.g. '/etc/~#PROJECT#~/configkey.gpg'); if empty a non secure connection will be used instead",
+    "remote_config_secret_keyring": {
+      "description": "Secret to add as URL query or another secret key depending on the implementation",
       "type": "string",
       "default": ""
     },

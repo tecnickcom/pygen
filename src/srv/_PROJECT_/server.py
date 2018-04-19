@@ -21,7 +21,6 @@ class Server(object):
 
     def __init__(self, cfg, log, stats):
         """Initialize a new Web Server.
-
         :cfg:   Server configuration dictionary (cfg.param).
         :log:   Logger object.
         :stats: StatsD object.
@@ -47,7 +46,6 @@ class Server(object):
 
     def get_status(self, code):
         """Returns a readable http code status (error|fail|success)
-
         :code: HTTP status code number.
         """
         if code >= 500:
@@ -58,7 +56,6 @@ class Server(object):
 
     def response_json(self, status, data):
         """Returns a server response in JSON format.
-
         :status: HTTPStatus code.
         :data:   Data object to include in the response.
         """
@@ -66,16 +63,16 @@ class Server(object):
         request_status = self.get_status(status.value)
         server_url = self.cfg['server']['host'] + ':' + str(self.cfg['server']['port'])
         body = {
-            "program":   PROGRAM,              # Program name
-            "version":   VERSION,              # Program version
-            "release":   RELEASE,              # Program release number
-            "url":       server_url,           # Server settings (host, port)
-            "datetime":  str(nowtime),         # Human-readable date and time when the event occurred
+            "program": PROGRAM,                # Program name
+            "version": VERSION,                # Program version
+            "release": RELEASE,                # Program release number
+            "url": server_url,                 # Server settings (host, port)
+            "datetime": str(nowtime),          # Human-readable date and time when the event occurred
             "timestamp": nowtime.timestamp(),  # Machine-readable UTC timestamp in seconds since EPOCH
-            "status":    request_status,       # Status code (error|fail|success)
-            "code":      status.value,         # HTTP status code
-            "message":   status.description,   # HTTP status message
-            "data":      data                  # Data payload
+            "status": request_status,          # Status code (error|fail|success)
+            "code": status.value,              # HTTP status code
+            "message": status.description,     # HTTP status message
+            "data": data                       # Data payload
         }
         self.stats.incr('http.' + str(status.value))
         if request_status == self.STATUS_SUCCESS:

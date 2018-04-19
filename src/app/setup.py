@@ -72,7 +72,7 @@ setup(
             'pytest',
             'pytest-benchmark',
             'pytest-cov',
-            'pytest-pep8',
+            'pycodestyle',
         ],
     },
     entry_points={

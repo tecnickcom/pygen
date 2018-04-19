@@ -64,7 +64,7 @@ setup(
             'pytest',
             'pytest-benchmark',
             'pytest-cov',
-            'pytest-pep8',
+            'pycodestyle',
         ],
     },
     cmdclass={'test': RunTests},

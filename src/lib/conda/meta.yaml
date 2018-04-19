@@ -20,9 +20,9 @@ test:
     - setuptools
     - coverage
     - pytest
-    - pytest-pep8
     - pytest-cov
     - pytest-benchmark
+    - pycodestyle
   imports:
     - ~#PROJECT#~
 

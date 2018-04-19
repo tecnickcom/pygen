@@ -1,8 +1,8 @@
 {
-  "remoteConfigProvider" : "",
-  "remoteConfigEndpoint" : "",
-  "remoteConfigPath" : "",
-  "remoteConfigSecretKeyring" : "",
+  "remote_config_provider" : "",
+  "remote_config_endpoint" : "",
+  "remote_config_path" : "",
+  "remote_config_secret_keyring" : "",
   "log": {
     "level": "INFO",
     "network": "udp",
