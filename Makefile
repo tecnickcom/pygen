@@ -34,10 +34,10 @@ UPROJECT=$(shell echo $(PROJECT) | tr a-z A-Z | tr - _)
 # Display general help about this command
 help:
 	@echo ""
-	@echo "pygen Makefile."
+	@echo "PyGen Makefile."
 	@echo "The following commands are available:"
 	@echo ""
-	@echo "    make new TYPE=app CONFIG=myproject.cfg  :  Generate a new go project"
+	@echo "    make new TYPE=app CONFIG=myproject.cfg  :  Generate a new project"
 	@echo "    make clean                              :  Remove all generated projects"
 	@echo ""
 	@echo "    * TYPE is the project type:"
