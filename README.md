@@ -17,6 +17,8 @@
 
 This is a command-line tool to quickly generate Python services, applications and libraries with a common set of features and reusable logic.
 
+For an equivalent project in Go (golang) please check [GoGen](https://github.com/tecnickcom/gogen).
+
 Each Python project built with this tool adheres to the set of conventions detailed in the following articles:
 
 * [Software Naming](https://technick.net/guides/software/software_naming)

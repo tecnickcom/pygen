@@ -51,7 +51,7 @@ help:
 # Alias for help target
 all: help
 
-# Generate a new go project
+# Generate a new project
 new: newproject rename template confirm
 
 # Copy the project template in the output folder
