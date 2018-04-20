@@ -15,5 +15,5 @@ class TestExample(TestCase):
 class TestBenchmarkProcess(object):
 
     def test_benchmark_get_double(self, benchmark):
-        p = Process(123)
-        benchmark(p.get_double)
+        ex = Example(num=123)
+        benchmark(ex.get_double)
