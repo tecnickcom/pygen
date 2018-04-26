@@ -48,6 +48,7 @@ help:
 	@echo "        app      : command-line application"
 	@echo "        srv      : HTTP API service"
 	@echo "        libapp   : command-line application with dependency library"
+	@echo "        libsrv   : HTTP API service with dependency library"
 	@echo ""
 	@echo "    * CONFIG is the configuration file containing the project settings."
 	@echo ""
