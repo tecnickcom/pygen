@@ -40,3 +40,11 @@ script:
   - make new TYPE=lib
   - cd target/github.com/dummyvendor/dummy
   - make build
+  - make clean
+  - make new TYPE=libapp
+  - cd target/github.com/dummyvendor/dummy
+  - make build
+  - make clean
+  - make new TYPE=libsrv
+  - cd target/github.com/dummyvendor/dummy
+  - make build

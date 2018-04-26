@@ -55,7 +55,10 @@ setup(
     keywords='~#PROJECT#~',
     packages=find_packages(exclude=['docs', 'tests*']),
     data_files=[
-        ('config', ['resources/etc/~#PROJECT#~/config.json', 'resources/etc/~#PROJECT#~/config.schema.json']),
+        ('config', [
+            'resources/etc/~#PROJECT#~/config.json',
+            'resources/etc/~#PROJECT#~/config.schema.json'
+        ]),
         ('info', ['VERSION', 'RELEASE', 'LICENSE', 'README.md'])
     ],
     install_requires=[

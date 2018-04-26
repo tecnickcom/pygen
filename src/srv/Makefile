@@ -1,6 +1,6 @@
 # MAKEFILE
 #
-# @link        https://github.com/~#VENDOR#~/~#PROJECT#~
+# @link        ~#PROJECTLINK#~
 # ------------------------------------------------------------------------------
 
 # List special make targets that are not associated with files

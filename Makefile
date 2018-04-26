@@ -28,6 +28,9 @@ include $(CONFIG)
 # Generate a prefix for environmental variables
 UPROJECT=$(shell echo $(PROJECT) | tr a-z A-Z | tr - _)
 
+# Base project name
+BASEPROJECT=${PROJECT}
+
 
 # --- MAKE TARGETS ---
 
@@ -44,6 +47,7 @@ help:
 	@echo "        lib      : library"
 	@echo "        app      : command-line application"
 	@echo "        srv      : HTTP API service"
+	@echo "        libapp   : command-line application with dependency library"
 	@echo ""
 	@echo "    * CONFIG is the configuration file containing the project settings."
 	@echo ""
@@ -62,22 +66,28 @@ newproject:
 
 # Rename project files
 rename:
-	find ./target/$(CVSPATH)/$(PROJECT)/ -type d -name "_PROJECT_*" -execdir mv '{}' "$(PROJECT)" \; -prune
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type d -name "lib__PROJECT_*" -execdir mv '{}' "lib_$(PROJECT)" \; -prune
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type d -name "app__PROJECT_*" -execdir mv '{}' "app_$(PROJECT)" \; -prune
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type d -name "srv__PROJECT_*" -execdir mv '{}' "srv_$(PROJECT)" \; -prune
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type d -name "_PROJECT_*" -execdir mv '{}' "$(PROJECT)" \; -prune
 
 # Replace text templates in the code
 template:
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#PROJECT#~/$(PROJECT)/" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#PROJECT#~/$(PROJECT)/" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#UPROJECT#~/$(UPROJECT)/" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#SHORTDESCRIPTION#~/$(SHORTDESCRIPTION)/" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s|~#CVSPATH#~|$(CVSPATH)|" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s|~#PROJECTLINK#~|$(PROJECTLINK)|" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#VENDOR#~/$(VENDOR)/" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#OWNER#~/$(OWNER)/" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#OWNEREMAIL#~/$(OWNEREMAIL)/" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#CURRENTYEAR#~/$(CURRENTYEAR)/" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#LIBPACKAGE#~/$(LIBPACKAGE)/" {} \;
-	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#LICENSE#~/$(LICENSE)/" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/lib/ -type f -exec sed -i "s/~#PROJECT#~/lib_~#PROJECT#~/g" {} \; || true
+	@find ./target/$(CVSPATH)/$(PROJECT)/app/ -type f -exec sed -i "s/~#PROJECT#~/app_~#PROJECT#~/g" {} \; || true
+	@find ./target/$(CVSPATH)/$(PROJECT)/srv/ -type f -exec sed -i "s/~#PROJECT#~/srv_~#PROJECT#~/g" {} \; || true
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#PROJECT#~/$(PROJECT)/g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#BASEPROJECT#~/$(BASEPROJECT)/g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#UPROJECT#~/$(UPROJECT)/g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#SHORTDESCRIPTION#~/$(SHORTDESCRIPTION)/g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s|~#CVSPATH#~|$(CVSPATH)|g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s|~#PROJECTLINK#~|$(PROJECTLINK)|g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#VENDOR#~/$(VENDOR)/g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#OWNER#~/$(OWNER)/g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#OWNEREMAIL#~/$(OWNEREMAIL)/g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#CURRENTYEAR#~/$(CURRENTYEAR)/g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#LIBPACKAGE#~/$(LIBPACKAGE)/g" {} \;
+	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#LICENSE#~/$(LICENSE)/g" {} \;
 
 # Print confirmation message
 confirm:

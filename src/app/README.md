@@ -1,6 +1,6 @@
 # ~#PROJECT#~
 
-*Brief project description ...*
+*~#SHORTDESCRIPTION#~*
 
 * **category**    Application
 * **copyright**   ~#CURRENTYEAR#~ ~#OWNER#~
@@ -10,7 +10,7 @@
 
 ## Description
 
-Full project description ...
+~#SHORTDESCRIPTION#~
 
 
 ## Requirements
@@ -52,7 +52,7 @@ The list of make targets can be obtained by typing ```make```
 
 The base Docker building environment is defined in the following Dockerfile:
 ```
-resources/DockerDev/Dockerfile
+resources/Docker/Dockerfile.dev
 ```
 
 To format the code (please use this command before submitting any pull request):
