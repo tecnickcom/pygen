@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------
 
 # List special make targets that are not associated with files
-.PHONY: help version conda build doc format clean
+.PHONY: help version conda conda_dev build doc format clean
 
 # Use bash as shell (Note: Ubuntu now uses dash which doesn't support PIPESTATUS).
 SHELL=/bin/bash
@@ -39,6 +39,9 @@ CONDA_ENV=$(shell dirname ${CURRENTDIR})/env-${PROJECT}
 # Include default build configuration
 include $(CURRENTDIR)/config.mk
 
+# extract all packages
+ALLPACKAGES=$(shell cat conda/meta.yaml | grep -oP '^    - \K(.*)' | sort -u | tr '\r\n' ' ')
+
 
 # --- MAKE TARGETS ---
 
@@ -50,6 +53,7 @@ help:
 	@echo ""
 	@echo "    make version    : Set version from VERSION file"
 	@echo "    make conda      : Build minimal Conda environment"
+	@echo "    make conda_dev  : Build development Conda environment"
 	@echo "    make build      : Build a Conda package"
 	@echo "    make doc        : Start a server to display source code documentation"
 	@echo "    make format     : Format the source code"
@@ -68,6 +72,12 @@ version:
 # Build minimal Conda environment
 conda:
 	./conda/setup-conda.sh
+
+# Build development Conda environment
+conda_dev:
+	ENV_NAME=env-dev-~#PROJECT#~ ./conda/setup-conda.sh
+	source ../env-dev-~#PROJECT#~/bin/activate && \
+	$(foreach PKG,$(ALLPACKAGES), conda install --override-channels $(ARTIFACTORY_CONDA_CHANNELS) -y $(PKG) || true ; )
 
 # Build a conda package
 build: clean version conda
