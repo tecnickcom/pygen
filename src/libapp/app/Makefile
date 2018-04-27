@@ -36,8 +36,8 @@ CURRENTDIR=$(shell pwd)
 # Conda environment
 CONDA_ENV=$(shell dirname ${CURRENTDIR})/env-${PROJECT}
 
-# Include default build configuration
-include $(CURRENTDIR)/config.mk
+# Include configuration
+include $(CURRENTDIR)/../config.mk
 
 # extract all packages
 ALLPACKAGES=$(shell cat conda/meta.yaml | grep -oP '^    - \K(.*)' | sort -u | tr '\r\n' ' ')
@@ -77,12 +77,12 @@ conda:
 conda_dev:
 	ENV_NAME=env-dev-~#PROJECT#~ ./conda/setup-conda.sh
 	source ../env-dev-~#PROJECT#~/bin/activate && \
-	$(foreach PKG,$(ALLPACKAGES), conda install --override-channels $(ARTIFACTORY_CONDA_CHANNELS) -y $(PKG) || true ; )
+	$(foreach PKG,$(ALLPACKAGES), conda install --override-channels $(CONDA_CHANNELS) -y $(PKG) || true ; )
 
 # Build a conda package
 build: clean version conda
 	mkdir -p target
-	"${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --no-remove-work-dir --override-channels -c ${CURRENTDIR}/../env-lib_~#BASEPROJECT#~/conda-bld/ $(ARTIFACTORY_CONDA_CHANNELS) conda
+	"${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --no-remove-work-dir --override-channels -c ${CURRENTDIR}/../env-lib_~#BASEPROJECT#~/conda-bld/ $(CONDA_CHANNELS) conda
 	cp -Rf "${CONDA_ENV}/conda-bld" target/
 
 # Generate source code documentation

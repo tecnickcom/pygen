@@ -4,10 +4,19 @@
 # ------------------------------------------------------------------------------
 
 # List special make targets that are not associated with files
-.PHONY: help version conda build doc format clean
+.PHONY: help version conda conda_dev build doc format clean
 
 # Project name
 PROJECT=~#PROJECT#~
+
+# Current directory
+CURRENTDIR=$(shell pwd)
+
+# Include configuration
+include $(CURRENTDIR)/config.mk
+
+# extract all packages
+ALLPACKAGES=$(shell cat lib/conda/meta.yaml app/conda/meta.yaml | grep -oP '^    - \K(.*)' | sort -u | tr '\r\n' ' ')
 
 # --- MAKE TARGETS ---
 
@@ -19,6 +28,7 @@ help:
 	@echo ""
 	@echo "    make version    : Set version from VERSION file"
 	@echo "    make conda      : Build minimal Conda environment"
+	@echo "    make conda_dev  : Build development Conda environment"
 	@echo "    make build      : Build a Conda package"
 	@echo "    make doc        : Start a server to display source code documentation"
 	@echo "    make format     : Format the source code"
@@ -39,6 +49,12 @@ version:
 conda:
 	cd lib && make conda
 	cd app && make conda
+
+# Build development Conda environment
+conda_dev:
+	ENV_NAME=env-dev-~#PROJECT#~ ./lib/conda/setup-conda.sh
+	source ../env-dev-~#PROJECT#~/bin/activate && \
+	$(foreach PKG,$(ALLPACKAGES), conda install --override-channels $(CONDA_CHANNELS) -y $(PKG) || true ; )
 
 # Build a conda package
 build: version
