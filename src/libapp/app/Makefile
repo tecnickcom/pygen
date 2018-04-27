@@ -82,7 +82,7 @@ conda_dev:
 # Build a conda package
 build: clean version conda
 	mkdir -p target
-	"${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --no-remove-work-dir --override-channels $(ARTIFACTORY_CONDA_CHANNELS) -c ${CURRENTDIR}/../env-lib_~#BASEPROJECT#~/conda-bld/ conda
+	"${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --no-remove-work-dir --override-channels -c ${CURRENTDIR}/../env-lib_~#BASEPROJECT#~/conda-bld/ $(ARTIFACTORY_CONDA_CHANNELS) conda
 	cp -Rf "${CONDA_ENV}/conda-bld" target/
 
 # Generate source code documentation
