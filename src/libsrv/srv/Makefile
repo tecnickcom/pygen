@@ -76,8 +76,8 @@ conda:
 # Build development Conda environment
 conda_dev:
 	ENV_NAME=env-dev-~#PROJECT#~ ./conda/setup-conda.sh
-	source ../env-dev-~#PROJECT#~/bin/activate && \
-	$(foreach PKG,$(ALLPACKAGES), conda install --override-channels $(CONDA_CHANNELS) -y $(PKG) || true ; )
+	. ../env-dev-~#PROJECT#~/bin/activate && \
+	$(foreach PKG,$(ALLPACKAGES), ../env-dev-~#PROJECT#~/bin/conda install --override-channels $(CONDA_CHANNELS) -y $(PKG) || true ; )
 
 # Build a conda package
 build: clean version conda

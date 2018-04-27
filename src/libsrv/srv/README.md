@@ -152,7 +152,7 @@ Once the application has being compiled with `make build`, it can be quickly tes
 
 * activate the Conda environment:  
 ```
-source ../env-~#PROJECT#~/bin/activate
+. ../env-~#PROJECT#~/bin/activate
 ```
 * install the runtime dependencies listed in conda/meta.yaml, for example:  
 ```
