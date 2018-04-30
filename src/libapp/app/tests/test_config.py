@@ -93,7 +93,7 @@ class TestConfig(TestCase):
         os.environ["~#UPROJECT#~_REMOTECONFIGENDPOINT"] = "https://jsonplaceholder.typicode.com"
         os.environ["~#UPROJECT#~_REMOTECONFIGPATH"] = "posts/97"
         try:
-            cfg.get_config_params(configDir="", logLevel="CRITICAL")
+            cfg.get_config_params({"--config-dir": "", "--log-level": "CRITICAL"})
             self.assertEqual(cfg.param["log"]["level"], "CRITICAL")
             self.assertEqual(cfg.param["id"], 97)
         finally:
@@ -105,7 +105,7 @@ class TestConfig(TestCase):
         const = Const()
         const.CONFIG_FILE_NAME = ""
         cfg = Config(const)
-        cfg.get_config_params(configDir="", logLevel="")
+        cfg.get_config_params({"--config-dir": "", "--log-level": ""})
         self.assertEqual(cfg.param["log"]["level"], "INFO")
 
     def test_get_remote_config_unsupported_provider(self):

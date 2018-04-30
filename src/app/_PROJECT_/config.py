@@ -84,12 +84,12 @@ class Config(object):
         r.raise_for_status()
         self.param.update(r.json())
 
-    def get_config_params(self, configDir="", logLevel=""):
+    def get_config_params(self, opt):
         """Load the configuration data."""
-        self.get_local_config_params(configDir)
+        self.get_local_config_params(opt['--config-dir'])
         self.get_remote_config_params()
-        if logLevel:
-            self.param['log']['level'] = logLevel
+        if opt['--log-level']:
+            self.param['log']['level'] = opt['--log-level']
 
     def check_config_params(self):
         """Check the validity of configuration parameters."""

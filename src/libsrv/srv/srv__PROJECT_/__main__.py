@@ -42,7 +42,7 @@ def cli(options, const):
 
         # load configuration
         cfg = Config(const)
-        cfg.get_config_params(options['--config-dir'], options['--log-level'])
+        cfg.get_config_params(options)
         cfg.check_config_params()
 
         # setup logger
