@@ -27,10 +27,16 @@ To see all available options:
 make help
 ```
 
-To build a Conda development environment:
+To build a Conda development environment:  
 ```
 make conda_dev
 . activate
+```
+
+To test inside a `conda_dev` environment using setuptools:  
+```
+cd app
+make test
 ```
 
 To build and test the project inside a Conda environment:  

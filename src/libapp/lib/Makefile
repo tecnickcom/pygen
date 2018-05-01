@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------
 
 # List special make targets that are not associated with files
-.PHONY: help version conda conda_dev build doc format clean
+.PHONY: help version conda conda_dev build test doc format clean
 
 # Use bash as shell (Note: Ubuntu now uses dash which doesn't support PIPESTATUS).
 SHELL=/bin/bash
@@ -55,10 +55,10 @@ help:
 	@echo "    make conda      : Build minimal Conda environment"
 	@echo "    make conda_dev  : Build development Conda environment"
 	@echo "    make build      : Build a Conda package"
+	@echo "    make test       : Execute test command - you shuould activate the conda_dev environment first"
 	@echo "    make doc        : Start a server to display source code documentation"
 	@echo "    make format     : Format the source code"
 	@echo "    make clean      : Remove any build artifact"
-	@echo "    make dbuild     : Build everything inside a Docker container"
 	@echo ""
 
 all: help
@@ -83,7 +83,10 @@ conda_dev:
 build: clean version conda
 	mkdir -p target
 	"${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --no-remove-work-dir --override-channels $(CONDA_CHANNELS) conda
-	#cp -Rf "${CONDA_ENV}/conda-bld" target/
+
+# Test using setuptools
+test:
+	python setup.py develop test
 
 # Generate source code documentation
 doc:
