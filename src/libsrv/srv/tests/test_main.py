@@ -16,7 +16,10 @@ import time
 
 
 fdir = os.path.dirname(os.path.abspath(__file__))
-clicmd = os.path.join(os.environ['PREFIX'], 'bin', PROGRAM)
+if 'PREFIX' in os.environ:
+    clicmd = os.path.join(os.environ['PREFIX'], 'bin', PROGRAM)
+else:
+    clicmd = '~#PROJECT#~'
 
 
 class TestMain(TestCase):
