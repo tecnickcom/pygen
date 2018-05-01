@@ -16,7 +16,7 @@ CURRENTDIR=$(shell pwd)
 include $(CURRENTDIR)/config.mk
 
 # extract all packages
-ALLPACKAGES=$(shell cat lib/conda/meta.yaml app/conda/meta.yaml | grep -oP '^    - \K(.*)' | sort -u | tr '\r\n' ' ')
+ALLPACKAGES=$(shell cat lib/conda/meta.yaml app/conda/meta.yaml | grep -oP '^\s*-\s\K(.*)' | sed "s/.*${PROJECT}//" | sed '/^\s*$$/d' | sort -u | tr '\r\n' ' ')
 
 # --- MAKE TARGETS ---
 
@@ -54,7 +54,7 @@ conda:
 conda_dev:
 	ENV_NAME=env-dev-~#PROJECT#~ ./lib/conda/setup-conda.sh
 	. env-dev-~#PROJECT#~/bin/activate && \
-	$(foreach PKG,$(ALLPACKAGES), env-dev-~#PROJECT#~/bin/conda install --override-channels $(CONDA_CHANNELS) -y $(PKG) || true ; )
+	env-dev-~#PROJECT#~/bin/conda install --override-channels $(CONDA_CHANNELS) -y $(ALLPACKAGES)
 
 # Build a conda package
 build: version

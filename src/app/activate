@@ -1,0 +1,4 @@
+#!/bin/false
+
+source env-~#PROJECT#~/bin/activate
+python setup.py develop

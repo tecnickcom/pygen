@@ -1,0 +1,9 @@
+#!/bin/false
+
+source env-dev-~#PROJECT#~/bin/activate
+pushd lib
+python setup.py develop
+popd
+pushd app
+python setup.py develop
+popd

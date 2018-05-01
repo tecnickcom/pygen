@@ -22,11 +22,15 @@ please read the README.md files inside the `srv` and `lib` folders.
 
 This project includes a Makefile that allows you to test and build the project in a Linux-compatible system with simple commands.
 
-All the artifacts and reports produced using this Makefile are stored in the *target* folder.
-
 To see all available options:
 ```
 make help
+```
+
+To build a Conda development environment:
+```
+make conda_dev
+. activate
 ```
 
 To build and test the project inside a Conda environment:  

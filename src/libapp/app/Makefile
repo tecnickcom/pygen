@@ -40,7 +40,7 @@ CONDA_ENV=$(shell dirname ${CURRENTDIR})/env-${PROJECT}
 include $(CURRENTDIR)/../config.mk
 
 # extract all packages
-ALLPACKAGES=$(shell cat conda/meta.yaml | grep -oP '^    - \K(.*)' | sort -u | tr '\r\n' ' ')
+ALLPACKAGES=$(shell cat conda/meta.yaml | grep -oP '^\s*-\s\K(.*)' | sed "s/.*${PROJECT}//" | sed '/^\s*$$/d' | sort -u | tr '\r\n' ' ')
 
 
 # --- MAKE TARGETS ---
@@ -77,13 +77,13 @@ conda:
 conda_dev:
 	ENV_NAME=env-dev-~#PROJECT#~ ./conda/setup-conda.sh
 	. ../env-dev-~#PROJECT#~/bin/activate && \
-	$(foreach PKG,$(ALLPACKAGES), ../env-dev-~#PROJECT#~/bin/conda install --override-channels $(CONDA_CHANNELS) -y $(PKG) || true ; )
+	../env-dev-~#PROJECT#~/bin/conda install --override-channels $(CONDA_CHANNELS) -y $(ALLPACKAGES)
 
 # Build a conda package
 build: clean version conda
 	mkdir -p target
 	"${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --no-remove-work-dir --override-channels -c ${CURRENTDIR}/../env-lib_~#BASEPROJECT#~/conda-bld/ $(CONDA_CHANNELS) conda
-	cp -Rf "${CONDA_ENV}/conda-bld" target/
+	#cp -Rf "${CONDA_ENV}/conda-bld" target/
 
 # Generate source code documentation
 doc:
