@@ -1,9 +1,12 @@
 package:
   name: ~#PROJECT#~
-  version: 1.0.0.1
+  version: 1.0.0
 
 source:
   path: ..
+
+build:
+  number: 0
 
 requirements:
   host:
