@@ -1,0 +1,4 @@
+[TYPECHECK]
+
+ignored-modules = ujson
+ignored-classes = ujson

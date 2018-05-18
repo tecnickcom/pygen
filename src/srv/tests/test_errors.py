@@ -8,5 +8,5 @@ from ~#PROJECT#~ import errors as err
 class TestErrors(TestCase):
 
     def test_invalid_config_error(self):
-        e = err.InvalidConfigError('TEST')
-        self.assertEqual(str(e), "Invalid configuration: TEST")
+        exc = err.InvalidConfigError('TEST')
+        self.assertEqual(str(exc), "Invalid configuration: TEST")

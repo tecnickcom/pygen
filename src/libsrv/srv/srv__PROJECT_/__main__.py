@@ -20,7 +20,9 @@ Note:
 """
 
 
+import sys
 from docopt import docopt
+from werkzeug.serving import run_simple
 from . import __version__ as VERSION
 from . import __release__ as RELEASE
 from .constants import Const
@@ -28,7 +30,6 @@ from .config import Config
 from .log import LoggingSetup
 from .stats import StatsSetup
 from .server import Server
-from werkzeug.serving import run_simple
 
 
 def cli(options, const):
@@ -70,8 +71,8 @@ def cli(options, const):
         server = Server(cfg.param, log, metric.stat)
         run_simple(cfg.param['server']['host'], cfg.param['server']['port'], server)
 
-    except BaseException as e:
-        log.exception(e)
+    except BaseException as err:
+        log.exception(err)
         raise
 
 
@@ -81,5 +82,4 @@ def main():
 
 
 if __name__ == '__main__':  # pragma: no cover
-    import sys
     sys.exit(main())

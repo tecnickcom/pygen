@@ -2,9 +2,9 @@
 
 
 from unittest import TestCase
-from ~#PROJECT#~.server import Server
 from werkzeug.wrappers import Request
 from werkzeug.test import create_environ
+from ~#PROJECT#~.server import Server
 
 
 class TestServer(TestCase):
