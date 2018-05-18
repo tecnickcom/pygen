@@ -20,6 +20,7 @@ Note:
 """
 
 
+import sys
 from docopt import docopt
 from . import __version__ as VERSION
 from . import __release__ as RELEASE
@@ -66,11 +67,11 @@ def cli(options, const):
             config=cfg.param)
 
         # main process
-        p = Process(123)
-        return p.get_double()
+        proc = Process(123)
+        return proc.get_double()
 
-    except BaseException as e:
-        log.exception(e)
+    except BaseException as err:
+        log.exception(err)
         raise
 
 
@@ -80,5 +81,4 @@ def main():
 
 
 if __name__ == '__main__':  # pragma: no cover
-    import sys
     sys.exit(main())

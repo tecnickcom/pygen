@@ -74,9 +74,9 @@ rename:
 
 # Replace text templates in the code
 template:
-	@find ./target/$(CVSPATH)/$(PROJECT)/lib/ -type f -exec sed -i "s/~#PROJECT#~/lib_~#PROJECT#~/g" {} \; || true
-	@find ./target/$(CVSPATH)/$(PROJECT)/app/ -type f -exec sed -i "s/~#PROJECT#~/app_~#PROJECT#~/g" {} \; || true
-	@find ./target/$(CVSPATH)/$(PROJECT)/srv/ -type f -exec sed -i "s/~#PROJECT#~/srv_~#PROJECT#~/g" {} \; || true
+	@find ./target/$(CVSPATH)/$(PROJECT)/lib/ -type f -exec sed -i "s/~#PROJECT#~/lib_~#PROJECT#~/g" {} \; 2>/dev/null || true
+	@find ./target/$(CVSPATH)/$(PROJECT)/app/ -type f -exec sed -i "s/~#PROJECT#~/app_~#PROJECT#~/g" {} \; 2>/dev/null || true
+	@find ./target/$(CVSPATH)/$(PROJECT)/srv/ -type f -exec sed -i "s/~#PROJECT#~/srv_~#PROJECT#~/g" {} \; 2>/dev/null || true
 	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#PROJECT#~/$(PROJECT)/g" {} \;
 	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#BASEPROJECT#~/$(BASEPROJECT)/g" {} \;
 	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#UPROJECT#~/$(UPROJECT)/g" {} \;

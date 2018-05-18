@@ -1,8 +1,8 @@
 """Logger Module."""
 
 import logging.config
-import pythonjsonlogger
 import socket
+import pythonjsonlogger
 from structlog import configure, processors, stdlib, threadlocal, getLogger
 
 

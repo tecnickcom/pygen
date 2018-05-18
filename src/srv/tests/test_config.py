@@ -6,7 +6,7 @@ from ~#PROJECT#~.constants import Const
 from ~#PROJECT#~.config import Config
 from ~#PROJECT#~ import errors as err
 
-fdir = os.path.dirname(os.path.abspath(__file__))
+FDIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestConfig(TestCase):
@@ -67,7 +67,7 @@ class TestConfig(TestCase):
         os.environ["~#UPROJECT#~_REMOTECONFIGPATH"] = "endpoint/path"
         os.environ["~#UPROJECT#~_REMOTECONFIGSECRETKEYRING"] = "token=0123456789ABCDEF"
         try:
-            cfg.get_local_config_params(os.path.abspath(fdir + "/../resources/test/etc/~#PROJECT#~/"))
+            cfg.get_local_config_params(os.path.abspath(FDIR + "/../resources/test/etc/~#PROJECT#~/"))
             self.assertEqual(cfg.param["server"]["port"], 8017)
             self.assertEqual(cfg.param["remote_config_provider"], "url")
             self.assertEqual(cfg.param["remote_config_endpoint"], "http://www.example.com")

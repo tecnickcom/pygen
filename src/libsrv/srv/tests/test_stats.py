@@ -8,6 +8,6 @@ from ~#PROJECT#~.stats import StatsSetup
 class TestStatsSetup(TestCase):
 
     def test_init_class(self):
-        m = StatsSetup(prefix="test", host='127.0.0.1', port='8125')
-        m.stat.incr('test.test')
-        self.assertTrue(True)
+        metric = StatsSetup(prefix="test", host='127.0.0.1', port='8125')
+        metric.stat.incr('test.test')
+        self.assertIsNotNone(metric)

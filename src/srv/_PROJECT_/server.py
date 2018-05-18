@@ -1,23 +1,23 @@
 """JSON Web Sever."""
 
-import os
-from . import __version__ as VERSION
-from . import __release__ as RELEASE
-from . import __program_name__ as PROGRAM
-from . import constants as const
-from .process import Process
+from datetime import datetime, timezone
+from http import HTTPStatus
 from werkzeug.wrappers import Request, Response
 from werkzeug.routing import Map, Rule
 from werkzeug.exceptions import HTTPException, NotFound
-from werkzeug.wsgi import SharedDataMiddleware
-from werkzeug.utils import redirect
-from http import HTTPStatus
 import ujson as json
-from datetime import datetime, timezone
+from .process import Process
+from . import __version__ as VERSION
+from . import __release__ as RELEASE
+from . import __program_name__ as PROGRAM
 
 
 class Server(object):
     """JSON Web Server."""
+
+    STATUS_SUCCESS = "success"
+    STATUS_FAIL = "fail"
+    STATUS_ERROR = "error"
 
     def __init__(self, cfg, log, stats):
         """Initialize a new Web Server.
@@ -25,9 +25,6 @@ class Server(object):
         :log:   Logger object.
         :stats: StatsD object.
         """
-        self.STATUS_SUCCESS = "success"
-        self.STATUS_FAIL = "fail"
-        self.STATUS_ERROR = "error"
         self.cfg = cfg
         self.log = log
         self.stats = stats
@@ -67,8 +64,8 @@ class Server(object):
             "version": VERSION,                # Program version
             "release": RELEASE,                # Program release number
             "url": server_url,                 # Server settings (host, port)
-            "datetime": str(nowtime),          # Human-readable date and time when the event occurred
-            "timestamp": nowtime.timestamp(),  # Machine-readable UTC timestamp in seconds since EPOCH
+            "datetime": str(nowtime),          # Human-readable date and time of the event
+            "timestamp": nowtime.timestamp(),  # UTC timestamp in seconds since EPOCH
             "status": request_status,          # Status code (error|fail|success)
             "code": status.value,              # HTTP status code
             "message": status.description,     # HTTP status message
@@ -89,20 +86,24 @@ class Server(object):
 
     def on_index(self, request):
         """Returns a list of available entry points."""
+        del request
         return self.response_json(HTTPStatus.OK, self.routes)
 
     def on_status(self, request):
         """Returns the status of the service."""
+        del request
         return self.response_json(HTTPStatus.OK, {"status": "OK"})
 
     def on_config(self, request):
         """Returns the current configuration."""
+        del request
         return self.response_json(HTTPStatus.OK, self.cfg)
 
     def on_process(self, request, num):
         """Example process function."""
-        p = Process(num)
-        return self.response_json(HTTPStatus.OK, p.get_double())
+        del request
+        proc = Process(num)
+        return self.response_json(HTTPStatus.OK, proc.get_double())
 
     def on_shutdown(self, request):
         """Shutdown the server (testing only)."""
@@ -117,8 +118,8 @@ class Server(object):
             return getattr(self, 'on_' + endpoint)(request, **values)
         except NotFound:
             return self.error_not_found(request.url)
-        except HTTPException as e:
-            return e
+        except HTTPException as err:
+            return err
 
     def wsgi_app(self, environ, start_response):
         """Build a Web Server Gateway Interface"""
