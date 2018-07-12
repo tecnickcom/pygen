@@ -16,7 +16,7 @@ CURRENTDIR=$(shell pwd)
 include $(CURRENTDIR)/config.mk
 
 # extract all packages
-ALLPACKAGES=$(shell cat lib/conda/meta.yaml srv/conda/meta.yaml | grep -oP '^\s*-\s\K(.*)' | sed "s/.*${PROJECT}//" | sed '/^\s*$$/d' | sort -u | tr '\r\n' ' ')
+ALLPACKAGES=$(shell cat lib/conda/meta.yaml srv/conda/meta.yaml | grep -oP '^\s*-\s\K(.*)' | sed "s/.*${PROJECT}//" | sed '/^\s*$$/d' | sort -u | tr -d ' ' | sed 's/[^ ][^ ]*/"&"/g' | tr '\r\n' ' ')
 
 # --- MAKE TARGETS ---
 
