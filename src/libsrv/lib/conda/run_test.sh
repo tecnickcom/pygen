@@ -1,5 +1,5 @@
 echo -e "\n\n*** TEST ***\n\n"
-export COVERAGE_PROCESS_START="$(dirname "${SRC_DIR}")/work/.coveragerc"
+export COVERAGE_PROCESS_START="${PROJECT_ROOT}/.coveragerc"
 echo "import coverage; coverage.process_startup()" > "${SP_DIR}/subcov.pth"
 mkdir -p "${CONDA_ROOT}/conda-bld/coverage"
 rm -rf "${CONDA_ROOT}/conda-bld/coverage/*"

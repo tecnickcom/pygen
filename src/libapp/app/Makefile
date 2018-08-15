@@ -84,7 +84,7 @@ conda_dev:
 # Build a conda package
 build: clean version conda
 	mkdir -p target
-	"${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --no-remove-work-dir --override-channels -c ${CURRENTDIR}/../env-lib_~#BASEPROJECT#~/conda-bld/ $(CONDA_CHANNELS) conda
+	PROJECT_ROOT=${CURRENTDIR} "${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --override-channels -c ${CURRENTDIR}/../env-lib_~#BASEPROJECT#~/conda-bld/ $(CONDA_CHANNELS) conda
 
 # Test using setuptools
 test:
