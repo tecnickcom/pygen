@@ -31,7 +31,7 @@ RELEASE=$(shell cat RELEASE)
 PKGNAME=${VENDOR}-${PROJECT}
 
 # Current directory
-CURRENTDIR=$(shell pwd)
+CURRENTDIR=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Conda environment
 CONDA_ENV=$(shell dirname ${CURRENTDIR})/env-${PROJECT}

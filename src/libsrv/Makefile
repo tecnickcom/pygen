@@ -10,7 +10,7 @@
 PROJECT=~#PROJECT#~
 
 # Current directory
-CURRENTDIR=$(shell pwd)
+CURRENTDIR=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Include configuration
 include $(CURRENTDIR)/config.mk

@@ -10,7 +10,7 @@
 .PHONY: help all new newproject rename template confirm clean
 
 # Current directory
-CURRENTDIR=$(shell pwd)
+CURRENTDIR=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Set default project type
 ifeq ($(TYPE),)
