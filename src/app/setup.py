@@ -6,6 +6,7 @@ from os.path import dirname, join
 from subprocess import call
 from setuptools import Command, find_packages, setup
 from ~#PROJECT#~ import __version__ as VERSION
+from ~#PROJECT#~ import __release__ as RELEASE
 
 
 def read(fname):
@@ -37,7 +38,7 @@ class RunTests(Command):
 
 setup(
     name='~#PROJECT#~',
-    version=VERSION,
+    version=VERSION + '.' + RELEASE,
     description='~#SHORTDESCRIPTION#~',
     long_description=read('README.md'),
     url='~#PROJECTLINK#~',

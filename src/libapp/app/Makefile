@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------
 
 # List special make targets that are not associated with files
-.PHONY: help version conda conda_dev build test lint doc format clean
+.PHONY: help version conda conda_dev build wheel test lint doc format clean
 
 # Use bash as shell (Note: Ubuntu now uses dash which doesn't support PIPESTATUS).
 SHELL=/bin/bash
@@ -55,6 +55,7 @@ help:
 	@echo "    make conda      : Build minimal Conda environment"
 	@echo "    make conda_dev  : Build development Conda environment"
 	@echo "    make build      : Build a Conda package"
+	@echo "    make wheel      : Build a Wheel package"
 	@echo "    make test       : Execute test command - you shuould activate the conda_dev environment first"
 	@echo "    make lint       : Evaluate code"
 	@echo "    make doc        : Start a server to display source code documentation"
@@ -85,6 +86,10 @@ conda_dev:
 build: clean version conda
 	mkdir -p target
 	PROJECT_ROOT=${CURRENTDIR} "${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --override-channels -c ${CURRENTDIR}/../env-lib_~#BASEPROJECT#~/conda-bld/ $(CONDA_CHANNELS) conda
+
+# Build a Wheel package
+wheel: clean version
+	python setup.py sdist bdist_wheel
 
 # Test using setuptools
 test:

@@ -52,9 +52,11 @@ make new TYPE=app CONFIG=myproject.cfg
 ```
 
 * **TYPE** is the project type:
-    * **lib**  :  library
-    * **app**  :  command-line application
-    * **srv**  :  HTTP API service
+    * **lib**     :  library
+    * **app**     :  command-line application
+    * **srv**     :  HTTP API service
+    * **libapp**  :  library + command-line application
+    * **libsrv**  :  library + HTTP API service
 
 * **CONFIG** is the configuration file containing the project settings.
 
@@ -76,6 +78,7 @@ All projects are creted inside the *target* directory.
 * Makefile;
 * Docker build;
 * Conda packaging.
+* Wheel packaging.
 
 ### Applications (app)
 
@@ -87,6 +90,7 @@ All projects are creted inside the *target* directory.
 * Makefile;
 * Docker build;
 * Conda packaging.
+* Wheel packaging.
 
 ### Libraries (lib)
 
@@ -94,3 +98,4 @@ All projects are creted inside the *target* directory.
 * Makefile;
 * Docker build;
 * Conda packaging.
+* Wheel packaging.

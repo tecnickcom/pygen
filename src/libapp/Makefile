@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------
 
 # List special make targets that are not associated with files
-.PHONY: help version conda conda_dev build doc format clean
+.PHONY: help version conda conda_dev build wheel doc format clean
 
 # Project name
 PROJECT=~#PROJECT#~
@@ -29,7 +29,8 @@ help:
 	@echo "    make version    : Set version from VERSION file"
 	@echo "    make conda      : Build minimal Conda environment"
 	@echo "    make conda_dev  : Build development Conda environment"
-	@echo "    make build      : Build a Conda package"
+	@echo "    make build      : Build a Conda packages"
+	@echo "    make wheel      : Build a Wheel packages"
 	@echo "    make doc        : Start a server to display source code documentation"
 	@echo "    make format     : Format the source code"
 	@echo "    make clean      : Remove any build artifact"
@@ -56,11 +57,16 @@ conda_dev:
 	. env-dev-~#PROJECT#~/bin/activate && \
 	env-dev-~#PROJECT#~/bin/conda install --override-channels $(CONDA_CHANNELS) -y $(ALLPACKAGES)
 
-# Build a conda package
+# Build a conda packages
 build: version
 	cd lib && make build
 	cd app && make build
-	
+
+# Build a Wheel packages
+wheel: version
+	cd lib && make wheel
+	cd app && make wheel
+
 # Generate source code documentation
 doc:
 	cd lib && make doc
