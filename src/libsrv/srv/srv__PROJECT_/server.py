@@ -29,16 +29,16 @@ class Server(object):
         self.log = log
         self.stats = stats
         self.routes = [
-            ('/', 'index', 'List available endpoints.'),
-            ('/status', 'status', 'Check this service status.'),
-            ('/config', 'config', 'Return the current configuration.'),
-            ('/process/<int:num>', 'process', 'Example process.')
+            ("/", "index", "List available endpoints."),
+            ("/status", "status", "Check this service status."),
+            ("/config", "config", "Return the current configuration."),
+            ("/process/<int:num>", "process", "Example process."),
         ]
         rules = []
         for path, method, _ in self.routes:
             rules.append(Rule(path, endpoint=method))
-        if 'shutdown' in self.cfg['server']:
-            rules.append(Rule('/shutdown', endpoint='shutdown'))
+        if "shutdown" in self.cfg["server"]:
+            rules.append(Rule("/shutdown", endpoint="shutdown"))
         self.url_map = Map(rules)
 
     def get_status(self, code):
@@ -58,25 +58,25 @@ class Server(object):
         """
         nowtime = datetime.now(timezone.utc)
         request_status = self.get_status(status.value)
-        server_url = self.cfg['server']['host'] + ':' + str(self.cfg['server']['port'])
+        server_url = self.cfg["server"]["host"] + ":" + str(self.cfg["server"]["port"])
         body = {
-            "program": PROGRAM,                # Program name
-            "version": VERSION,                # Program version
-            "release": RELEASE,                # Program release number
-            "url": server_url,                 # Server settings (host, port)
-            "datetime": str(nowtime),          # Human-readable date and time of the event
+            "program": PROGRAM,  # Program name
+            "version": VERSION,  # Program version
+            "release": RELEASE,  # Program release number
+            "url": server_url,  # Server settings (host, port)
+            "datetime": str(nowtime),  # Human-readable date and time of the event
             "timestamp": nowtime.timestamp(),  # UTC timestamp in seconds since EPOCH
-            "status": request_status,          # Status code (error|fail|success)
-            "code": status.value,              # HTTP status code
-            "message": status.description,     # HTTP status message
-            "data": data                       # Data payload
+            "status": request_status,  # Status code (error|fail|success)
+            "code": status.value,  # HTTP status code
+            "message": status.description,  # HTTP status message
+            "data": data,  # Data payload
         }
-        self.stats.incr('http.' + str(status.value))
+        self.stats.incr("http." + str(status.value))
         if request_status == self.STATUS_SUCCESS:
-            self.log.info('HTTP', status=status, data=data)
+            self.log.info("HTTP", status=status, data=data)
         else:
-            self.log.error('HTTP', status=status, data=data)
-        response = Response(json.dumps(body), mimetype='application/json')
+            self.log.error("HTTP", status=status, data=data)
+        response = Response(json.dumps(body), mimetype="application/json")
         response.status_code = status.value
         return response
 
@@ -107,7 +107,7 @@ class Server(object):
 
     def on_shutdown(self, request):
         """Shutdown the server (testing only)."""
-        request.environ['werkzeug.server.shutdown']()
+        request.environ["werkzeug.server.shutdown"]()
         return Response()
 
     def dispatch_request(self, request):
@@ -115,7 +115,7 @@ class Server(object):
         adapter = self.url_map.bind_to_environ(request.environ)
         try:
             endpoint, values = adapter.match()
-            return getattr(self, 'on_' + endpoint)(request, **values)
+            return getattr(self, "on_" + endpoint)(request, **values)
         except NotFound:
             return self.error_not_found(request.url)
         except HTTPException as err:

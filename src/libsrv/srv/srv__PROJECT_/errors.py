@@ -9,4 +9,4 @@ class InvalidConfigError(Exception):
         super(InvalidConfigError, self).__init__(message, *args)
 
     def __str__(self):
-        return 'Invalid configuration: {0}'.format(self.message)
+        return "Invalid configuration: {0}".format(self.message)

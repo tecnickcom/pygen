@@ -47,24 +47,27 @@ def cli(options, const):
 
         # setup logger
         log = LoggingSetup(
-            log_level=cfg.param['log']['level'],
-            log_network=cfg.param['log']['network'],
-            log_address=cfg.param['log']['address']).run()
+            log_level=cfg.param["log"]["level"],
+            log_network=cfg.param["log"]["network"],
+            log_address=cfg.param["log"]["address"],
+        ).run()
 
         # setup statsd to collect metrics
         metric = StatsSetup(
-            prefix=cfg.param['stats']['prefix'],
-            host=cfg.param['stats']['host'],
-            port=cfg.param['stats']['port'])
+            prefix=cfg.param["stats"]["prefix"],
+            host=cfg.param["stats"]["host"],
+            port=cfg.param["stats"]["port"],
+        )
 
         # log program start
-        metric.stat.incr('start')
+        metric.stat.incr("start")
         log.info(
             "START",
             version=VERSION,
             release=RELEASE,
             arguments=options,
-            config=cfg.param)
+            config=cfg.param,
+        )
 
         # main process
         proc = Process(123)
@@ -77,8 +80,8 @@ def cli(options, const):
 
 def main():
     """Main CLI entrypoint."""
-    cli(docopt(__doc__, version=VERSION + '.' + RELEASE), Const())  # pragma: no cover
+    cli(docopt(__doc__, version=VERSION + "." + RELEASE), Const())  # pragma: no cover
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     sys.exit(main())
