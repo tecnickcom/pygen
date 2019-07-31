@@ -69,8 +69,8 @@ all: help
 version:
 	sed -i "s/version:.*$$/version: $(VERSION)/" conda/meta.yaml
 	sed -i "s/number:.*$$/number: $(RELEASE)/" conda/meta.yaml
-	sed -i "s/__version__.*$$/__version__ = '$(VERSION)'/" ~#PROJECT#~/__init__.py
-	sed -i "s/__release__.*$$/__release__ = '$(RELEASE)'/" ~#PROJECT#~/__init__.py
+	sed -i "s/__version__.*$$/__version__ = \"$(VERSION)\"/" ~#PROJECT#~/__init__.py
+	sed -i "s/__release__.*$$/__release__ = \"$(RELEASE)\"/" ~#PROJECT#~/__init__.py
 
 # Build minimal Conda environment
 .PHONY: conda
