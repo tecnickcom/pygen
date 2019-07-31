@@ -77,6 +77,7 @@ setup(
             'pytest-benchmark',
             'pytest-cov',
             'pycodestyle',
+            'black',
         ],
     },
     entry_points={

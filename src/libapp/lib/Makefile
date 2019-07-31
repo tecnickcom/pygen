@@ -105,7 +105,7 @@ doc:
 
 # Format the source code
 format:
-	find . -path ./target -prune -o -type f -name '*.py' -exec autopep8 --in-place --max-line-length=255 {} \;
+	black .
 
 # Remove any build artifact
 clean:

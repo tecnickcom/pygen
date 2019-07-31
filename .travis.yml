@@ -27,26 +27,4 @@ addons:
     - python-autopep8
 
 script:
-  - make new TYPE=srv
-  - cd target/github.com/dummyvendor/dummy
-  - make build
-  - cd ../../../..
-  - make clean
-  - make new TYPE=app
-  - cd target/github.com/dummyvendor/dummy
-  - make build
-  - cd ../../../..
-  - make clean
-  - make new TYPE=lib
-  - cd target/github.com/dummyvendor/dummy
-  - make build
-  - cd ../../../..
-  - make clean
-  - make new TYPE=libapp
-  - cd target/github.com/dummyvendor/dummy
-  - make build
-  - cd ../../../..
-  - make clean
-  - make new TYPE=libsrv
-  - cd target/github.com/dummyvendor/dummy
-  - make build
+  - make test

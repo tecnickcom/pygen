@@ -3,9 +3,6 @@
 # @link        ~#PROJECTLINK#~
 # ------------------------------------------------------------------------------
 
-# List special make targets that are not associated with files
-.PHONY: help version conda conda_dev build wheel dbuild test lint doc format clean
-
 # Use bash as shell (Note: Ubuntu now uses dash which doesn't support PIPESTATUS).
 SHELL=/bin/bash
 
@@ -46,6 +43,7 @@ ALLPACKAGES=$(shell cat conda/meta.yaml | grep -oP '^\s*-\s\K(.*)' | sed "s/.*${
 # --- MAKE TARGETS ---
 
 # Display general help about this command
+.PHONY: help
 help:
 	@echo ""
 	@echo "$(PROJECT) Makefile."
@@ -67,6 +65,7 @@ help:
 all: help
 
 # Set the version from VERSION file
+.PHONY: version
 version:
 	sed -i "s/version:.*$$/version: $(VERSION)/" conda/meta.yaml
 	sed -i "s/number:.*$$/number: $(RELEASE)/" conda/meta.yaml
@@ -74,46 +73,56 @@ version:
 	sed -i "s/__release__.*$$/__release__ = '$(RELEASE)'/" ~#PROJECT#~/__init__.py
 
 # Build minimal Conda environment
+.PHONY: conda
 conda:
 	./conda/setup-conda.sh
 
 # Build development Conda environment
+.PHONY: conda_dev
 conda_dev:
 	ENV_NAME=env-dev-~#PROJECT#~ ./conda/setup-conda.sh
 	. ../env-dev-~#PROJECT#~/bin/activate && \
 	../env-dev-~#PROJECT#~/bin/conda install --override-channels $(CONDA_CHANNELS) -y $(ALLPACKAGES)
 
 # Build a conda package
+.PHONY: build
 build: clean version conda
 	mkdir -p target
 	PROJECT_ROOT=${CURRENTDIR} "${CONDA_ENV}/bin/conda" build --prefix-length 128 --no-anaconda-upload --override-channels $(CONDA_CHANNELS) conda
 
 # Build a Wheel package
+.PHONY: wheel
 wheel: clean version
 	python setup.py sdist bdist_wheel
 
 # Test using setuptools
+.PHONY: test
 test:
 	python setup.py develop test
 
 # Evaluate code
+.PHONY: lint
 lint:
 	pylint ${PROJECT}
 
 # Generate source code documentation
+.PHONY: doc
 doc:
 	pydoc -p 1234 $(PROJECT)
 
 # Format the source code
+.PHONY: format
 format:
-	find . -path ./target -prune -o -type f -name '*.py' -exec autopep8 --in-place --max-line-length=255 {} \;
+	black .
 
 # Remove any build artifact
+.PHONY: clean
 clean:
 	rm -rf target Dockerfile htmlcov build dist .cache .benchmarks ./tests/*.so ./tests/__pycache__ ./~#PROJECT#~/__pycache__ ./~#PROJECT#~.egg-info
 	find . -type f -name '*.pyc' -exec rm -f {} \;
 
 # Build everything inside a Docker container
+.PHONY: dbuild
 dbuild:
 	@mkdir -p target
 	@rm -rf target/*

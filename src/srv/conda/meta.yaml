@@ -33,6 +33,7 @@ test:
     - pytest-cov
     - pytest-benchmark
     - pycodestyle
+    - black
   imports:
     - ~#PROJECT#~
 

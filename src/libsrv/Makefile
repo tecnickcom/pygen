@@ -3,9 +3,6 @@
 # @link        ~#PROJECTLINK#~
 # ------------------------------------------------------------------------------
 
-# List special make targets that are not associated with files
-.PHONY: help version conda conda_dev build wheel doc format clean
-
 # Project name
 PROJECT=~#PROJECT#~
 
@@ -21,6 +18,7 @@ ALLPACKAGES=$(shell cat lib/conda/meta.yaml srv/conda/meta.yaml | grep -oP '^\s*
 # --- MAKE TARGETS ---
 
 # Display general help about this command
+.PHONY: help
 help:
 	@echo ""
 	@echo "$(PROJECT) Makefile."
@@ -40,6 +38,7 @@ help:
 all: help
 
 # Set the version from VERSION file
+.PHONY: version
 version:
 	cp -t lib/ VERSION RELEASE LICENSE
 	cp -t srv/ VERSION RELEASE LICENSE
@@ -47,42 +46,50 @@ version:
 	cd srv && make version
 
 # Build minimal Conda environment
+.PHONY: conda
 conda:
 	cd lib && make conda
 	cd srv && make conda
 
 # Build development Conda environment
+.PHONY: conda_dev
 conda_dev:
 	ENV_NAME=env-dev-~#PROJECT#~ ./lib/conda/setup-conda.sh
 	. env-dev-~#PROJECT#~/bin/activate && \
 	env-dev-~#PROJECT#~/bin/conda install --override-channels $(CONDA_CHANNELS) -y $(ALLPACKAGES)
 
 # Build a conda packages
+.PHONY: build
 build: version
 	cd lib && make build
 	cd srv && make build
 
 # Build a Wheel packages
+.PHONY: wheel
 wheel: version
 	cd lib && make wheel
 	cd srv && make wheel
 
 # Generate source code documentation
+.PHONY: doc
 doc:
 	cd lib && make doc
 	cd srv && make doc
 
 # Format the source code
+.PHONY: format
 format:
 	cd lib && make format
 	cd srv && make format
 
 # Remove any build artifact
+.PHONY: clean
 clean:
 	cd lib && make clean
 	cd srv && make clean
 
 # Build everything inside a Docker container
+.PHONY: dbuild
 dbuild:
 	@mkdir -p target
 	@rm -rf target/*

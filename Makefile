@@ -6,9 +6,6 @@
 # This file is intended to be executed in a Linux-compatible system.
 # ------------------------------------------------------------------------------
 
-# List special make targets that are not associated with files
-.PHONY: help all new newproject rename template confirm clean
-
 # Current directory
 CURRENTDIR=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
@@ -35,6 +32,7 @@ BASEPROJECT=${PROJECT}
 # --- MAKE TARGETS ---
 
 # Display general help about this command
+.PHONY: help
 help:
 	@echo ""
 	@echo "PyGen Makefile."
@@ -57,15 +55,18 @@ help:
 all: help
 
 # Generate a new project
+.PHONY: new
 new: newproject rename template confirm
 
 # Copy the project template in the output folder
+.PHONY: newproject
 newproject:
 	@mkdir -p ./target/$(CVSPATH)/$(PROJECT)
 	@rm -rf ./target/$(CVSPATH)/$(PROJECT)/*
 	@cp -rf ./src/$(TYPE)/. ./target/$(CVSPATH)/$(PROJECT)/
 
 # Rename project files
+.PHONY: rename
 rename:
 	@find ./target/$(CVSPATH)/$(PROJECT)/ -type d -name "lib__PROJECT_*" -execdir mv '{}' "lib_$(PROJECT)" \; -prune
 	@find ./target/$(CVSPATH)/$(PROJECT)/ -type d -name "app__PROJECT_*" -execdir mv '{}' "app_$(PROJECT)" \; -prune
@@ -73,6 +74,7 @@ rename:
 	@find ./target/$(CVSPATH)/$(PROJECT)/ -type d -name "_PROJECT_*" -execdir mv '{}' "$(PROJECT)" \; -prune
 
 # Replace text templates in the code
+.PHONY: template
 template:
 	@find ./target/$(CVSPATH)/$(PROJECT)/lib/ -type f -exec sed -i "s/~#PROJECT#~/lib_~#PROJECT#~/g" {} \; 2>/dev/null || true
 	@find ./target/$(CVSPATH)/$(PROJECT)/app/ -type f -exec sed -i "s/~#PROJECT#~/app_~#PROJECT#~/g" {} \; 2>/dev/null || true
@@ -91,9 +93,25 @@ template:
 	@find ./target/$(CVSPATH)/$(PROJECT)/ -type f -exec sed -i "s/~#LICENSE#~/$(LICENSE)/g" {} \;
 
 # Print confirmation message
+.PHONY: confirm
 confirm:
 	@echo "A new "$(TYPE)" project has been created: "target/$(CVSPATH)/$(PROJECT)
 
 # Remove all generated projects
+.PHONY: clean
 clean:
 	@rm -rf ./target
+
+# Test all templates
+.PHONY: test
+test:
+	make clean new TYPE=srv
+	cd target/github.com/dummyvendor/dummy && make build
+	make clean new TYPE=app
+	cd target/github.com/dummyvendor/dummy && make build
+	make clean new TYPE=lib
+	cd target/github.com/dummyvendor/dummy && make build
+	make clean new TYPE=libapp
+	cd target/github.com/dummyvendor/dummy && make build
+	make clean new TYPE=libsrv
+	cd target/github.com/dummyvendor/dummy && make build
